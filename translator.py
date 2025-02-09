@@ -2,8 +2,8 @@ import json
 import pykakasi
 
 # Input json file
-#file = "ja_jp"
-file = "test"
+file = "ja_jp"
+#file = "test"
 
 with open(file+".json") as f:
     data = json.load(f)

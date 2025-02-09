@@ -14,7 +14,7 @@ def string_is_hiragana_or_whitespace(s: str) -> bool:
     return all(c in string.whitespace or char_is_hiragana(c) for c in s)
 
 # Input json file
-file = "test"
+file = "ja_jp"
 #file = "test"
 
 with open(file+".json") as f:
