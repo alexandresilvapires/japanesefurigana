@@ -1,52 +1,48 @@
 import json
 import pykakasi
+import re
 
 # Input json file
-file = "ja_jp"
-#file = "test"
+file = "test"
 
-with open(file+".json") as f:
+KANJI_RE = re.compile(r'[\u4e00-\u9FFF]')
+
+with open(file + ".json") as f:
     data = json.load(f)
     data_word = data.copy()
 
 kks = pykakasi.kakasi()
 
-print(kks.convert("カタカナ")[0]["hira"])
-
 for item in data:
-
-    # For each word in the sentence, we collect all kana
-    result = kks.convert(data[item])
-    furigana = ""
-    new_data_word = ""
-
-
+    original_text = data[item]
+    result = kks.convert(original_text)
+    
     sentenceHasKanji = False
+    furigana_text = original_text  # Start with original untouched text
+    furigana = ""
 
-    for i in range(0,len(result)):
-        wordHasKanji = False
+    # We'll build a list of (kanji, hira) pairs to substitute
+    replacements = []
 
-        new_data_word += result[i]["orig"]
+    for token in result:
+        orig = token["orig"]
+        hira = token["hira"]
 
-        if(result[i]["orig"] != result[i]['hira'] and result[i]["orig"] != result[i]['kana'] and result[i]["orig"] != result[i]['hepburn']):
-            wordHasKanji = True
+        if KANJI_RE.search(orig):
             sentenceHasKanji = True
+            replacements.append((orig, f"{orig}({hira})"))
+            furigana += hira + "|"
 
-        if wordHasKanji:
-            new_data_word += "("+result[i]['hira']+")"
-
-            if(i == len(result)-1): 
-                furigana += result[i]['hira']
-            else:
-                furigana += result[i]['hira'] + "|"
+    # Avoid over-replacing if word appears multiple times
+    for orig, annotated in replacements:
+        furigana_text = furigana_text.replace(orig, annotated, 1)
 
     if sentenceHasKanji:
-        data_word[item] = new_data_word
-        
-        data[item] = data[item] + " (" + furigana + ")"
+        data_word[item] = furigana_text
+        data[item] = f"{original_text} ({furigana.rstrip('|')})"
 
-with open(file+"_translated_word.json", 'w') as f:
+with open(file + "_translated_word.json", 'w') as f:
     json.dump(data_word, f, indent=4, ensure_ascii=False)
 
-with open(file+"_translated_end.json", 'w') as f:
+with open(file + "_translated_end.json", 'w') as f:
     json.dump(data, f, indent=4, ensure_ascii=False)
