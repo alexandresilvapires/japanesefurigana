@@ -3,7 +3,7 @@ import pykakasi
 import re
 
 # Input json file
-file = "test"
+file = "ja_jp"
 
 KANJI_RE = re.compile(r'[\u4e00-\u9FFF]')
 
