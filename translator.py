@@ -41,8 +41,8 @@ for item in data:
         data_word[item] = furigana_text
         data[item] = f"{original_text} ({furigana.rstrip('|')})"
 
-with open(file + "_translated_word.json", 'w') as f:
+with open("ja_fw.json", 'w') as f:
     json.dump(data_word, f, indent=4, ensure_ascii=False)
 
-with open(file + "_translated_end.json", 'w') as f:
+with open("ja_fe.json", 'w') as f:
     json.dump(data, f, indent=4, ensure_ascii=False)
