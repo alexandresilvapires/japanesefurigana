@@ -5,4 +5,6 @@ Lang files are obtained from https://mcasset.cloud/26.1/assets/minecraft/lang/ja
 
 Uses current NLP technology to lemmatize kanji into hiragana, and adds the respective hiragana into the language file. The file is then used in a resource pack, and activates when using Japanese in-game.
 
-To run, just point the file variable in translator.py to ja_jp.json, and run it. 
+Just select the Minecraft version in build.py and run it to generate the Resource Pack zip file.
+
+Big thanks to HiroTak for providing native corrections and reading preferences!

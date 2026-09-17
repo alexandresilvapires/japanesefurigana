@@ -1,12 +1,12 @@
 {
   "pack": {
-    "pack_format": 88,
+    "pack_format": 121,
     "supported_formats": [
       15,
-      88
+      121
     ],
     "min_format": 15,
-    "max_format": 88,
+    "max_format": 121,
     "description": "Alex's Japanese Furigana Language"
   },
   "language": {
